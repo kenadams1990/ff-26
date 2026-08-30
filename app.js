@@ -470,6 +470,22 @@ function exportCsv(){
   dl(new Blob([csv],{type:'text/csv'}),'ff26-picks.csv');
   toast('Pick list downloaded.');
 }
+function exportYahooCsv(){
+  // Yahoo's offline-draft entry screen has no bulk import — the commissioner fills
+  // each team's roster one player at a time. Grouping by team, in draft order,
+  // matches that flow so they can work straight down the list per team.
+  const s=state.settings;
+  const rows=[['Team','Pick','Player','Pos','NFL Team']];
+  for(let t=0;t<s.numTeams;t++){
+    state.picks.filter(p=>p.teamIdx===t).sort((a,b)=>a.slot-b.slot).forEach(p=>{
+      const si=slotInfo(p.slot); const pl=byId[p.id];
+      rows.push([teamName(t),pickLabel(si),pl?pl.name:'?',pl?pl.pos:'?',pl?pl.team:'']);
+    });
+  }
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  dl(new Blob([csv],{type:'text/csv'}),'ff26-picks-for-yahoo.csv');
+  toast('Yahoo-ready pick list downloaded (grouped by team).');
+}
 
 /* ============ Navigation ============ */
 function switchView(v){
@@ -499,6 +515,7 @@ function bindEvents(){
   $('#btn-export').addEventListener('click',exportJson);
   $('#btn-import').addEventListener('click',()=>$('#import-file').click());
   $('#btn-csv').addEventListener('click',exportCsv);
+  $('#btn-yahoo-csv').addEventListener('click',exportYahooCsv);
   $('#import-file').addEventListener('change',e=>{
     const f=e.target.files[0]; if(!f) return;
     const rd=new FileReader();
