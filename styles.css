@@ -9,7 +9,16 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 input,select{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
 input:focus,select:focus{outline:1px solid var(--accent)}
 
+.btn,.mini,.chip,.ptab,.teambtn,.resrow,.chipact{transition:transform .08s ease}
+.btn:active,.mini:active,.chipact:active,.ptab:active,.teambtn:active:not(:disabled),.resrow:active{transform:scale(.94)}
+
 #topbar{display:flex;align-items:center;gap:18px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;top:0;z-index:20}
+
+#quickbar.hidden{display:none}
+#quickbar{position:sticky;top:57px;z-index:19;padding:8px 16px;background:#0c2b1d;border-bottom:1px solid var(--mine)}
+#quickbar .qd-btn{width:100%;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--mine);color:#052015;border-color:var(--mine);font-weight:700;font-size:15px}
+#quickbar .qd-btn:hover{border-color:var(--mine)}
+.qd-meta{display:inline-flex;align-items:center;gap:6px;font-weight:600;opacity:.85}
 .brand{font-size:18px;white-space:nowrap}
 .brand .sub{color:var(--dim);font-size:13px}
 .clockinfo{flex:1;min-width:220px}
@@ -32,10 +41,17 @@ input:focus,select:focus{outline:1px solid var(--accent)}
 
 #best-wrap{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;flex-wrap:wrap;background:var(--panel2);border-bottom:1px solid var(--line)}
 .ba-label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;padding-top:6px;white-space:nowrap}
-#best-available{display:flex;gap:6px;flex-wrap:wrap}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px}
+#best-available{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 4px 4px 10px;font-size:13px}
 .chip:hover{border-color:var(--accent)}
 .chip .cr{color:var(--dim);font-size:12px}
+.chipmain{display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:4px 2px}
+.chipact{border:1px solid var(--line);border-radius:999px;min-width:28px;min-height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;background:var(--panel2)}
+.chipact:hover{border-color:var(--accent)}
+.chipact.mine{color:var(--mine)}
+.chipact.mine:hover{border-color:var(--mine)}
+.chipact.take{color:var(--warn)}
+.chipact.take:hover{border-color:var(--warn)}
 
 .room-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:14px;padding:14px 16px;align-items:start}
 #player-col{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
@@ -65,7 +81,7 @@ input:focus,select:focus{outline:1px solid var(--accent)}
 .tag-t{background:#0f2b18;color:var(--rb)}
 .tag-a{background:#3b1214;color:var(--qb)}
 .tag-s{background:#241436;color:var(--dst)}
-.pact{display:flex;gap:4px;align-items:center}
+.pact{display:flex;gap:6px;align-items:center}
 .mini{border:1px solid var(--line);border-radius:7px;padding:4px 8px;font-size:13px;line-height:1.2;background:var(--panel2);white-space:nowrap}
 .mini:hover{border-color:var(--accent)}
 .mini.strong{border-color:var(--mine);color:var(--mine);font-weight:700}
@@ -145,4 +161,28 @@ td.rnd,th.rnd{background:var(--panel);text-align:center;color:var(--dim);font-we
   .room-grid{grid-template-columns:1fr}
   #player-list{max-height:60vh}
   #topbar{gap:10px}
+}
+
+/* Bigger, well-spaced tap targets on touch devices; also fixes iOS auto-zoom
+   on inputs by keeping their font-size at 16px+ when a coarse pointer is present. */
+@media (pointer:coarse){
+  .mini{min-height:40px;padding:8px 13px;font-size:14px}
+  .btn{min-height:44px;padding:10px 14px}
+  .ptab{padding:9px 15px;min-height:38px}
+  .chipact{min-width:34px;min-height:34px;font-size:14px}
+  .teambtn{min-height:48px}
+  .resrow{min-height:46px}
+  input,select{font-size:16px}
+}
+
+@media (max-width:640px){
+  .prow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 8px}
+  .prow .prank{order:1}
+  .prow .pbadge{order:2}
+  .prow .pinfo{order:3;flex:1 1 auto;min-width:0}
+  .prow .pact{order:4;flex:0 0 100%;gap:8px;margin-top:2px}
+  .prow .pact .mini{flex:1;min-height:46px;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .prow .pkinfo{order:5;flex:1 1 auto;white-space:normal}
+  .qrow{flex-wrap:wrap}
+  .qrow .mini{min-height:38px;min-width:38px}
 }

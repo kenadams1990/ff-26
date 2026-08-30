@@ -155,11 +155,24 @@ function metaHtml(p){
 }
 
 /* ============ Renderers ============ */
+function topAvailable(){
+  return players.filter(p=>!pickOf(p.id)).sort((a,b)=>a.rank-b.rank)[0];
+}
+function renderQuickbar(ne, my){
+  const qb=$('#quickbar');
+  const top=ne&&ne.teamIdx===my?topAvailable():null;
+  if(!top){ qb.innerHTML=''; qb.classList.add('hidden'); return; }
+  qb.classList.remove('hidden');
+  qb.innerHTML='<button class="btn qd-btn" id="btn-quickdraft" data-id="'+top.id+'">'+
+    '⚡ On the clock — Draft '+esc(top.name)+' <span class="qd-meta">'+posBadge(top)+' #'+top.rank+'</span>'+
+    '</button>';
+}
 function renderClock(){
   const el=$('#clockinfo'); const my=state.settings.myTeamIdx;
   const ne=nextEmpty();
   if(!ne){
     el.innerHTML='<div class="c1"><b>Draft complete</b></div><div class="c2">'+state.picks.length+' picks logged</div>';
+    renderQuickbar(null, my);
     return;
   }
   const myNext=nextEmptyFor(my);
@@ -172,12 +185,17 @@ function renderClock(){
     (ne.teamIdx===my?'<b class="mine-txt">YOU are on the clock</b>':'On the clock: <b>'+esc(teamName(ne.teamIdx))+'</b>')+
     '</div><div class="c2">'+state.picks.length+' / '+totalSlots()+' picks logged'+
     (myNext?(' · your next: <b>'+pickLabel(myNext)+'</b>'+untilTxt):'')+'</div>';
+  renderQuickbar(ne, my);
 }
 
 function renderBest(){
   const avail=players.filter(p=>!p.custom&&!pickOf(p.id)).sort((a,b)=>a.rank-b.rank).slice(0,14);
   $('#best-available').innerHTML=avail.map(p=>
-    '<button class="chip" data-goto="'+p.id+'">'+posBadge(p)+'<span class="cr">#'+p.rank+'</span>'+esc(p.name)+'</button>'
+    '<div class="chip" data-id="'+p.id+'">'+
+      '<span class="chipmain">'+posBadge(p)+'<span class="cr">#'+p.rank+'</span>'+esc(p.name)+'</span>'+
+      '<button class="chipact mine" title="Draft to my team">＋</button>'+
+      '<button class="chipact take" title="Mark taken">✕</button>'+
+    '</div>'
   ).join('');
 }
 
@@ -516,9 +534,21 @@ function bindEvents(){
     else if(act==='unpick') removePick(id);
   });
 
+  $('#quickbar').addEventListener('click',e=>{
+    const b=e.target.closest('#btn-quickdraft'); if(!b) return;
+    draftPlayer(b.dataset.id, state.settings.myTeamIdx);
+  });
+
   $('#best-available').addEventListener('click',e=>{
-    const b=e.target.closest('.chip'); if(!b) return;
-    gotoPlayer(b.dataset.goto);
+    const chip=e.target.closest('.chip'); if(!chip) return;
+    const id=chip.dataset.id;
+    const actBtn=e.target.closest('.chipact');
+    if(actBtn){
+      if(actBtn.classList.contains('mine')) draftPlayer(id,state.settings.myTeamIdx);
+      else openAssignModal({mode:'player',id:id});
+      return;
+    }
+    gotoPlayer(id);
   });
 
   $('#roster-box').addEventListener('click',e=>{
