@@ -28,6 +28,16 @@ Prefer a URL? Enable GitHub Pages: **Settings → Pages → Deploy from a branch
 - Undo stack, JSON backup export/import, CSV pick export
 - Custom player entry for anyone not on the board
 
+## Handing results to your Yahoo league commissioner
+
+Yahoo Fantasy Football has no bulk/CSV import for offline draft results — the commissioner
+enters them by hand, one player at a time, working through each team's roster on Yahoo's
+"Submit Draft Results" screen (Commissioner → Draft & Keepers). There's no way around that
+manual step, but **Draft Board → ⇩ For Yahoo (by team)** exports a CSV grouped and ordered
+to match that exact flow — every pick for one team together, in draft order — so the
+commissioner works straight down one list per team instead of cross-referencing a
+round-by-round sheet.
+
 ## Player data (2026 season)
 
 | Field | Source |
