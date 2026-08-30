@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FF-26 · Draft Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏈</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header id="topbar">
+  <div class="brand">🏈 <b>FF-26</b> <span class="sub">Draft Dashboard</span></div>
+  <div id="clockinfo" class="clockinfo"></div>
+  <div class="topbtns">
+    <button id="btn-undo" class="btn" title="Undo last action">↩ Undo</button>
+    <button id="btn-settings" class="btn">⚙ League</button>
+    <button id="btn-export" class="btn" title="Download JSON backup">⇩ Export</button>
+    <button id="btn-import" class="btn" title="Restore JSON backup">⇧ Import</button>
+    <button id="btn-reset" class="btn danger">Reset</button>
+  </div>
+</header>
+
+<nav id="viewtabs">
+  <button data-view="room" class="active">Draft Room</button>
+  <button data-view="board">Draft Board</button>
+</nav>
+
+<main id="view-room" class="view active">
+  <section id="best-wrap">
+    <div class="ba-label">Best available</div>
+    <div id="best-available"></div>
+  </section>
+  <div class="room-grid">
+    <section id="player-col">
+      <div class="controls">
+        <input id="search" type="text" placeholder="Search name or team…  ( / )">
+        <label class="chk"><input type="checkbox" id="hide-taken"> Hide taken</label>
+      </div>
+      <div id="pos-tabs" class="postabs"></div>
+      <div id="player-list"></div>
+    </section>
+    <aside id="side-col">
+      <section class="panel" id="roster-box"></section>
+      <section class="panel" id="queue-box"></section>
+    </aside>
+  </div>
+</main>
+
+<main id="view-board" class="view">
+  <div class="boardtools">
+    <button id="btn-csv" class="btn">⇩ Export picks (CSV)</button>
+    <span class="dim boardhint">Click an empty cell to log a pick · click a filled cell to remove it</span>
+  </div>
+  <div id="board-outer"><div id="board"></div></div>
+</main>
+
+<div id="backdrop" class="hidden"></div>
+<div id="modal" class="hidden"></div>
+<input type="file" id="import-file" accept=".json,application/json" hidden>
+<div id="toast" class="hidden"></div>
+
+<script src="data/players.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
