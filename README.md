@@ -9,7 +9,10 @@ A private, zero-dependency draft-day dashboard for the **2026/2027 NFL season**.
 3. On first launch, fill in **League setup**: team names, your draft slot, and rounds.
 4. Draft. Everything autosaves to your browser (localStorage), so a refresh won't lose your board.
 
-Prefer a URL? Enable GitHub Pages: **Settings → Pages → Deploy from a branch → main / root**.
+Prefer a URL? This repo deploys itself to Cloudflare Workers on every push to `main`
+(see `.github/workflows/deploy-cloudflare.yml`), live at
+**https://missionoaks.tatinc.us**. One-time setup: add `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID` as repo secrets under **Settings → Secrets and variables → Actions**.
 
 ## Core features
 

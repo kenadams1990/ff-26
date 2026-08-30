@@ -1,0 +1,10 @@
+{
+  "name": "ff-26",
+  "compatibility_date": "2025-06-05",
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    { "pattern": "missionoaks.tatinc.us", "custom_domain": true }
+  ]
+}
